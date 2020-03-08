@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+    </title>
+  </head>
+  <body>
+    <nav style="background-color:red" class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" style="color:white" href="/"><span class="glyphicon glyphicon-home"></span> FoodMood</a>
+          </div>
+    <form class="navbar-form navbar-left" action="/search" methods="GET">
+    <div class="<input-group">
+      <input type="text" name="term" class="form-control" placeholder="cusines:spanish, indian, chinese...">
+      <input type="text" name="place" class="form-control" placeholder="Location">
+
+    <button class="btn btn-default" type="submit">
+       <i class="glyphicon glyphicon-search"></i>
+     </button>
+   </div>
+
+   </form>
+  </div>
+
+   </nav>
+   <div class="en">
+     <div id="map" style="top:11%"></div>
+   </div>
+   <div id="rest_list">
+     <!-- {{ret}} -->
+     </div>
+
+   <script>
+     <!-- var resturs_links="<ol>"; -->
+     var resturs_links='<table class="table table-borderless table-striped">';
+     var ctr = 0;
+     var resturs_urls = {{rand_resturs_url|tojson}};
+     var resturs_names = {{rand_resturs_name|tojson}};
+     var resturs_imgs = {{rand_resturs_img|tojson}};
+     for(ctr; ctr<{{amount}}; ctr++){
+       var head = '<tr><th scope="row">' + (ctr+1)+ '.</th><td> <img style="height:50px; width"60px;" src="'+ resturs_imgs[ctr]+ '"> <a style="font-size:25px" href= "'+ resturs_urls[ctr] + '">' + resturs_names[ctr] + "</a> </td></tr>";
+       resturs_links += head;
+     }
+     resturs_links += "</table>";
+
+     document.getElementById("rest_list").innerHTML = resturs_links;
+     </script>
+     <script>
+       // Note: This example requires that you consent to location sharing when
+       // prompted by your browser. If you see the error "The Geolocation service
+       // failed.", it means you probably did not give permission for the browser to
+       // locate you.
+       var map, infoWindow;
+       function initMap() {
+         map = new google.maps.Map(document.getElementById('map'), {
+           center: {lat: -34.397, lng: 150.644},
+           zoom: 11
+         });
+         infoWindow = new google.maps.InfoWindow;
+
+         // Try HTML5 geolocation.
+         if (navigator.geolocation) {
+           navigator.geolocation.getCurrentPosition(function(position) {
+             var pos = {
+               lat: position.coords.latitude,
+               lng: position.coords.longitude
+             };
+
+             // infoWindow.setPosition(pos);
+             // infoWindow.setContent('Location found.');
+             // infoWindow.open(map);
+             map.setCenter(pos);
+             // var list_of_items = ['a','b','c','d']
+             // var result = list_of_items.map(function(e,i) {
+             //   return {name: e}
+             // })
+             var locations = [];
+             var lats = {{lats}};
+             var longs = {{longs}}
+             var i;
+             for(i =0; i< 1; i++){
+               var dict = {};
+               dict["lat"] = lats[i];
+               dict["lng"] = longs[i];
+               locations.push(dict);
+             }
+
+             console.log(locations)
+             // var locations = loc
+             var ind =0;
+             var labels=['1'];
+
+             var markers = locations.map(function(location, i) {
+               return new google.maps.Marker({
+                 position: location,
+                 map:map,
+                 // icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ddd'
+                 // label: labels[i % labels.length]
+                 label: labels[ind],
+                 title:{{rand_resturs_name|tojson}}[ind++]
+                 // label: {{resturs_names|tojson}}[ind],
+               });
+               // window.counter +=1;
+               // ind++;
+             });
+             var pinImage = new google.maps.MarkerImage("http://www.googlemapsmarkers.com/v1/009900/");
+             var marker = new google.maps.Marker({
+             position: pos,
+             icon: pinImage,
+             map: map,
+             title: "You are Here"
+         });
+             contentString= "You are here!"
+             var infoWindow = new google.maps.InfoWindow({
+               content: contentString
+             });
+
+             marker.addListener("click", function(){
+               infoWindow.open(map,marker);
+             });
+             // var marker = new google.maps.Marker({position: pos, map: map})
+           }, function() {
+             handleLocationError(true, infoWindow, map.getCenter());
+           });
+         } else {
+           // Browser doesn't support Geolocation
+           handleLocationError(false, infoWindow, map.getCenter());
+         }
+       }
+
+       function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+         infoWindow.setPosition(pos);
+         infoWindow.setContent(browserHasGeolocation ?
+                               'Error: The Geolocation service failed.' :
+                               'Error: Your browser doesn\'t support geolocation.');
+         infoWindow.open(map);
+       }
+     </script>
+     <script async defer
+     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBeUnLveEXl8MY27GnXVACU-gnhaGIMIQ8&callback=initMap">
+     </script>
+
+  </body>
+</html>

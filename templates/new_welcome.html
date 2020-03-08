@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>
+      Foodate
+    </title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Monoton&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Chango|Chela+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Aladin|Merienda+One&display=swap" rel="stylesheet">    <!-- <link href="https://fonts.googleapis.com/css?family=Chango&display=swap" rel="stylesheet"> -->
+    <style>
+      h1{
+        margin-top:7%;
+        color:#f5dfdf;
+        text-align:center;
+      /*  font-family: 'Merienda One', cursive; */
+      font-family: 'Aladin', cursive;
+
+      /*  font-weight: bold; */
+        /*font-size: 70px; */
+        margin-top: 10%;
+        font-size:150px;
+        text-shadow: 2px 2px #ff0000;
+        letter-spacing: 0.05em;
+
+      }
+      body{
+        background-color: rgba(238, 238, 238, 0.1) !important;
+        background-image:url("../static/Picture3.png");
+        background-size: 100%;
+      }
+      h2{
+        /*font-family: 'Merienda One', cursive; */
+        font-family: 'Aladin', cursive;
+        font-size: 30px;
+        text-align:center;
+        color:white;
+        text-shadow: 3px 3px #ff0000;
+        letter-spacing: 0.05em;
+
+      }
+      ::placeholder {
+      font-size: 18px;
+      align-content: center;
+
+      }
+      #forms{
+          display: block;
+          align-content: center;
+          margin-left:20%;
+          margin-top: 7%;
+          font-size:30px;
+      }
+
+      </style>
+  </head>
+
+  <body>
+    <div>
+    <nav style="background-color:red" class="navbar navbar-default navbar-fixed-top">
+      <div class="container-fluid">
+          <div class="navbar-header">
+            <a class="navbar-brand" style="color:white" href="/"><span class="glyphicon glyphicon-home"></span> FoodMood</a>
+          </div>
+    <!-- <form class="navbar-form navbar-left" action="/search" methods="GET">
+    <div class="<input-group">
+      <input type="text" name="term" class="form-control" placeholder="cusines:spanish, indian, chinese...">
+      <input type="text" name="place" class="form-control" placeholder="Location">
+
+    <button class="btn btn-default" type="submit">
+       <i class="glyphicon glyphicon-search"></i>
+     </button>
+   </div>
+
+   </form> -->
+ </div>
+
+   </nav>
+   </div>
+   <div></div>
+   <div></div>
+   <div >
+    <h1 class="tex" style="color:#f5dfdf;">FoodMood!</h1>
+    <!-- We have all your foo finding needs!
+    Find any restaurant anywhere around the world -->
+    <h2 class="tag">What Are YOU in the Mood For?</h2>
+</div>
+<div id="forms">
+  <form class="navbar-form navbar-left" action="/search" methods="GET">
+  <div class="<input-group" >
+    <input type="text" name="term" size="50" style="height:50px;align-content:center;" class="form-control" placeholder="Cusines, Services, Restuarants...">
+    <input type="text" name="place" size="50" style="height:50px;align-content:center;" class="form-control" placeholder="Location">
+
+  <button class="btn btn-default" style="height:50px;" type="submit">
+     <i class="glyphicon glyphicon-search"></i>
+   </button>
+ </div>
+
+ </form>
+  </div>
+  </body>
+</html>
