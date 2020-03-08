@@ -53,11 +53,12 @@
         margin-left: 10px;
         color: red;
         font-family: 'Aladin', cursive;
+        width = 50%;
       }
       a:link {
         color: red;
         font-family: 'Aladin', cursive;
-        font-size: 20px;
+        font-size: 25px;
 
       }
 
@@ -96,6 +97,12 @@
         float:right;
 
       }
+      #link_text{
+        font-size: 25px;margin-left:10px;color: red;font-family: 'Aladin', cursive;
+      }
+      #accordion{
+        margin-left:-80px;width:70%;
+      }
     </style>
   </head>
   <body>
@@ -132,17 +139,11 @@
      var resturs_urls = {{rand_resturs_url|tojson}};
      var resturs_names = {{rand_resturs_name|tojson}};
      var resturs_imgs = {{rand_resturs_img|tojson}};
-     // for(ctr; ctr<{{amount}}; ctr++){
-     // var head = '<tr><th scope="row">1.</th><td> <img style="height:50px; width"60px;" src="'+ resturs_imgs+ '"> <a style="font-size:25px" href= "'+ resturs_urls + '">' + resturs_names + "</a> </td></tr>";
+     var phone = {{phone|tojson}};
     var img_pic = '<img style="margin-left:10px; height:100px; width"70px;" src="'+ resturs_imgs+ '"> <br>';
-    var name_link = '<a style="font-size:50px" href= "'+ resturs_urls + '">' + resturs_names + "</a> <br>";
-    var details = "Price: "+ {{rand_price_ran|tojson}} + "<br> Ratings: " + {{rand_rating_ran|tojson}};
 
-
-     var resturs_links = img_pic + name_link + details;
-     // }
-     // resturs_links += "</table>";
-
+    var acc_body = '<div class="container"> <div class="panel-group" id="accordion"><div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse1">'+ resturs_names + '</a></h4></div><div id="collapse1" class="panel-collapse collapse in"><div class="panel-body"> Ratings: ' + {{rand_rating_ran|tojson}} + '<div> Price: ' +{{rand_price_ran|tojson}} + '</div> <div> Phone Number: '+ phone + '</div> <div><a href=' + resturs_urls + 'id = "link_text">Link to Page</a></div></div>';
+     var resturs_links = acc_body;
      document.getElementById("rest_list").innerHTML = resturs_links;
      </script>
      <script>

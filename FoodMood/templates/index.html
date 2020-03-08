@@ -7,7 +7,8 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css?family=Chango|Chela+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Aladin|Merienda+One&display=swap" rel="stylesheet">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <!-- <script type="text/javascript" src="../util/sample.py"></script> -->
     <style>
       /* Always set the map height explicitly to define the size of the div
@@ -110,30 +111,30 @@
 
    <nav style="background-color:white" class="navbar navbar-default navbar-fixed-top fixed-top2">
      <div class="container-fluid">
-   <form class="navbar-form navbar-left" action="/sort_price" methods="GET">
-   <div style="font-family: 'Aladin', cursive;color: red;font-size:20px;" class="<input-group">
-     <!-- <input type="text" name="term" class="form-control" placeholder="cusines:spanish, indian, chinese..."> -->
-     Sort by price:
-     <input type="checkbox" id="myCheck" value="1" name="one"style="word-wrap:break-word">
-     <label for="one"  style="font-family: 'Aladin', cursive;color: red;font-size:20px;">$</label>
-     <input type="checkbox" id="myCheck" value="2" name="two">
-     <label for="two" style="font-family: 'Aladin', cursive;color: red;font-size:20px;">$$</label>
-     <input type="checkbox" id="myCheck" value="3" name="three">
-     <label for="three" style="font-family: 'Aladin', cursive;color: red;font-size:20px;">$$$</label>
-     <input type="checkbox" id="myCheck" value="4" name="four">
-     <label for="four" style="font-family: 'Aladin', cursive;color: red;font-size:20px;">$$$$</label>
-     <input type="hidden" name="term" class="form-control" value  = {{term}}>
-     <input type="hidden" name="place" class="form-control" value = {{place}}>
-     <!-- <input type="text" name="place" class="form-control" placeholder="Location"> -->
+       <form class="navbar-form navbar-left" action="/sort_price" methods="GET">
+       <div style="font-family: 'Aladin', cursive;color: red;font-size:20px;" class="<input-group">
+         <!-- <input type="text" name="term" class="form-control" placeholder="cusines:spanish, indian, chinese..."> -->
+         Sort by price:
+         <input type="checkbox" id="myCheck" value="1" name="one"style="word-wrap:break-word">
+         <label for="one"  style="font-family: 'Aladin', cursive;color: red;font-size:20px;">$</label>
+         <input type="checkbox" id="myCheck" value="2" name="two">
+         <label for="two" style="font-family: 'Aladin', cursive;color: red;font-size:20px;">$$</label>
+         <input type="checkbox" id="myCheck" value="3" name="three">
+         <label for="three" style="font-family: 'Aladin', cursive;color: red;font-size:20px;">$$$</label>
+         <input type="checkbox" id="myCheck" value="4" name="four">
+         <label for="four" style="font-family: 'Aladin', cursive;color: red;font-size:20px;">$$$$</label>
+         <input type="hidden" name="term" class="form-control" value  = {{term}}>
+         <input type="hidden" name="place" class="form-control" value = {{place}}>
+         <!-- <input type="text" name="place" class="form-control" placeholder="Location"> -->
 
-   <button  class="btn btn-default" type="submit" name="price_sub">
-      <!-- <i class="glyphicon glyphicon-search"></i> -->
-    </button>
-    <label for="price_sub">submit</label>
+       <button  class="btn btn-default" type="submit" name="price_sub">
+          <!-- <i class="glyphicon glyphicon-search"></i> -->
+        </button>
+        <label for="price_sub">submit</label>
 
-  </div>
+      </div>
 
-  </form>
+    </form>
 </div>
 
   </nav>
@@ -172,11 +173,33 @@
       var resturs_urls = {{resturs_urls|tojson}};
       var resturs_names = {{resturs_names|tojson}};
       var resturs_imgs = {{imgs|tojson}};
+      var phone_nums = {{phone|tojson}};
+      var ratings = {{ratings|tojson}};
+      var price_lists = {{price_list|tojson}};
       for(ctr; ctr<{{amount}}; ctr++){
         var head = '<tr><th scope="row">' + (ctr+1)+ '.</th><td> <img style="height:50px; width"60px;" src="'+ resturs_imgs[ctr]+ '"> <a style="font-size:25px" href= "'+ resturs_urls[ctr] + '">' + resturs_names[ctr] + "</a> </td></tr>";
-        resturs_links += head;
+        var details = '<tr><th></th><td> Rating: ' + ratings[ctr] + ' Price: ' + price_lists[ctr] + '</td></tr>';
+        resturs_links += head + details;
       }
       resturs_links += "</table>";
+      // var restur_links ='<div class="container"> <div class="panel-group" id="accordion">'
+      // var ctr = 0;
+      // var resturs_urls = {{resturs_urls|tojson}};
+      // var resturs_names = {{resturs_names|tojson}};
+      // var resturs_imgs = {{imgs|tojson}};
+      // var phone_nums = {{phone|tojson}};
+      // var ratings = {{ratings|tojson}};
+      // var price_lists = {{price_list|tojson}};
+      // for(ctr; ctr<{{amount}}; ctr++){
+      //   if(ctr ==0){
+      //     var acc_body = '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse' + (ctr+1) + '">'+ resturs_names[ctr] + '</a></h4></div><div id="collapse' + (ctr+1) + '" class="panel-collapse collapse in"><div class="panel-body">' + ratings[ctr] + '<div>' +price_lists[ctr] + '</div> <div>'+ phone_nums[ctr] + '</div> <div>' + resturs_urls[ctr] + '</div></div>';
+      //   }
+      //   else{
+      //   var acc_body = '<div class="panel panel-default"><div class="panel-heading"><h4 class="panel-title"><a data-toggle="collapse" data-parent="#accordion" href="#collapse' + (ctr+1) + '">'+ resturs_names[ctr] + '</a></h4></div><div id="collapse' + (ctr+1) + '" class="panel-collapse collapse"><div class="panel-body">' + ratings[ctr] + '<div>' +price_lists[ctr] + '</div> <div>'+ phone_nums[ctr] + '</div> <div>' + resturs_urls[ctr] + '</div></div>';
+      //   }
+      //   restur_links += acc_body;
+      // }
+      // restur_links += '<div><div>';
 
       document.getElementById("rest_list").innerHTML = resturs_links;
 
