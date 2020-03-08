@@ -46,6 +46,7 @@ except ImportError:
 # You can find it on
 # https://www.yelp.com/developers/v3/manage_app
 API_KEY= "TQDKtpf2pGByc011mhm8LRaBFHgYQGKPJR0lAHfunlFI9DsDdG9YyfpYdZCAzOOYmwDi-VbpInjTFUnZbtHz2jUjMn_BCeQ6HOpKzwmylPnXdvGu5LIERKVVZChlXnYx"
+# API_KEY= "43j4Xxma-rg0Z7dZtKBNrqGvyZs1ebCDRfYTgj8Y7fUJhi2ybEBVD98fuAYKL_H58L6sEy7FuTJq9BuRcgZWp3COBOf6P3Y4GuDB4NoIR6WB7fHf18xXRWXW3DRlXnYx"
 
 
 # API constants, you shouldn't have to change these.
@@ -59,6 +60,7 @@ DEFAULT_TERM = 'dinner'
 DEFAULT_LOCATION = 'San Francisco, CA'
 SEARCH_LIMIT = 50
 DEFAULT_PRICE = "1,2,3,4"
+DEFAULT_OPEN = False
 
 
 def request(host, path, api_key, url_params=None):
@@ -89,7 +91,7 @@ def request(host, path, api_key, url_params=None):
     return response.json()
 
 
-def search(api_key, term, location,price):
+def search(api_key, term, location,price,open):
     """Query the Search API by a search term and location.
 
     Args:
@@ -104,7 +106,8 @@ def search(api_key, term, location,price):
         'term': term.replace(' ', '+'),
         'location': location.replace(' ', '+'),
         'limit': SEARCH_LIMIT,
-        'price': price.replace(' ', '+')
+        'price': price.replace(' ', '+'),
+        'open_now': open.replace(' ', '+')
     }
     return request(API_HOST, SEARCH_PATH, api_key, url_params=url_params)
 
@@ -123,14 +126,14 @@ def get_business(api_key, business_id):
     return request(API_HOST, business_path, api_key)
 
 
-def query_api(term, location,price):
+def query_api(term, location,price,open):
     """Queries the API by the input values from the user.
 
     Args:
         term (str): The search term to query.
         location (str): The location of the business to query.
     """
-    response = search(API_KEY, term, location,price)
+    response = search(API_KEY, term, location,price,open)
 
     businesses = response.get('businesses')
 

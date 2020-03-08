@@ -114,7 +114,7 @@
        <form class="navbar-form navbar-left" action="/sort_price" methods="GET">
        <div style="font-family: 'Aladin', cursive;color: red;font-size:20px;" class="<input-group">
          <!-- <input type="text" name="term" class="form-control" placeholder="cusines:spanish, indian, chinese..."> -->
-         Sort by price:
+         Sort by Price:
          <input type="checkbox" id="myCheck" value="1" name="one"style="word-wrap:break-word">
          <label for="one"  style="font-family: 'Aladin', cursive;color: red;font-size:20px;">$</label>
          <input type="checkbox" id="myCheck" value="2" name="two">
@@ -123,6 +123,9 @@
          <label for="three" style="font-family: 'Aladin', cursive;color: red;font-size:20px;">$$$</label>
          <input type="checkbox" id="myCheck" value="4" name="four">
          <label for="four" style="font-family: 'Aladin', cursive;color: red;font-size:20px;">$$$$</label>
+          &nbsp&nbsp&nbsp Sort by Open Now:
+         <input type="checkbox" id="myCheck" value="true" name="open_now">
+         <label for="open_now" style="font-family: 'Aladin', cursive;color: red;font-size:20px;">Open Now</label>
          <input type="hidden" name="term" class="form-control" value  = {{term}}>
          <input type="hidden" name="place" class="form-control" value = {{place}}>
          <!-- <input type="text" name="place" class="form-control" placeholder="Location"> -->
@@ -163,7 +166,7 @@
    <!-- <h1 id="star"></h1> -->
    <!-- <h1>y</h1> -->
 
-     <a id = "random_place" class="btn btn-outline-danger" href="/random/{{term}}/{{place}}/{{price}}" role="button">CLICK HERE TO LET US PICK A PLACE FOR YOU</a>
+     <a id = "random_place" class="btn btn-outline-danger" href="/random/{{term}}/{{place}}/{{price}}/{{open}}" role="button">CLICK HERE TO LET US PICK A PLACE FOR YOU</a>
    <div id="rest_list">
      <!-- {{ret}} -->
      </div>

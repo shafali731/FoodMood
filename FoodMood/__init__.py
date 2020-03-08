@@ -18,9 +18,12 @@ app=Flask(__name__)
 @app.route('/')
 def start():
     return render_template('new_welcome.html')
-@app.route('/result/<term>/<place>/<price>')
-def welcome(term,place,price):
-    ret = sample.query_api(term,place,price)
+@app.route('/result/<term>/<place>/<price>/<open>')
+def welcome(term,place,price,open):
+    ret = sample.query_api(term,place,price,open)
+    if(ret == None):
+        return render_template('error.html')
+    print(ret)
     y = json.loads(ret)
     t = list(y.values())
     amount = t[-1]
@@ -44,7 +47,7 @@ def welcome(term,place,price):
         price_list[k] = y[str(k)]['price']
         ratings[k] = y[str(k)]['rating']
     print(phone)
-    return render_template('index.html', imgs= resturs_img, resturs_urls=resturs_urls, resturs_names=resturs_names,ret =y, lats=lats, longs= longs, amount = int(amount), term = term, place = place, price = price, phone = phone, price_list = price_list, ratings = ratings)
+    return render_template('index.html', imgs= resturs_img, resturs_urls=resturs_urls, resturs_names=resturs_names,ret =y, lats=lats, longs= longs, amount = int(amount), term = term, place = place, price = price, phone = phone, price_list = price_list, ratings = ratings, open = open)
 
 @app.route('/sort_price', methods=["GET"])
 def results_price():
@@ -56,6 +59,7 @@ def results_price():
     second= request.args.get('two')
     third= request.args.get('three')
     fourth= request.args.get('four')
+    open_n = request.args.get('open_now')
     prices = ""
     print(second)
     if(first==None and second == None and third == None and fourth == None):
@@ -70,11 +74,15 @@ def results_price():
         if(fourth != None):
             prices += fourth+ ","
         prices = prices[:-1]
+    if(open_n == "true"):
+        open = "true"
+    else:
+        open = "false"
     print("prices" + prices)
-    return redirect(url_for('welcome',term=term,place=loc,price = prices))
-@app.route('/random/<term>/<place>/<price>')
-def random_res(term,place,price):
-    ret = sample.query_api(term,place,price)
+    return redirect(url_for('welcome',term=term,place=loc,price = prices, open = open))
+@app.route('/random/<term>/<place>/<price>/<open>')
+def random_res(term,place,price,open):
+    ret = sample.query_api(term,place,price,open)
     y = json.loads(ret)
     # print(y)
     t = list(y.values())
@@ -109,7 +117,7 @@ def random_res(term,place,price):
     rand_rating_ran = rating_ran[rand_num]
     rand_price_ran = price_ran[rand_num]
     rand_phone_ran = phone_ran[rand_num]
-    return render_template('random.html',lats = latit, longs = longit, term=term, place=place, price=price,rand_resturs_name=rand_resturs_name,rand_resturs_url=rand_resturs_url,rand_resturs_img=rand_resturs_img, rand_rating_ran= rand_rating_ran, rand_price_ran = rand_price_ran, phone = rand_phone_ran, amount =1)
+    return render_template('random.html',lats = latit, longs = longit, term=term, place=place, price=price,rand_resturs_name=rand_resturs_name,rand_resturs_url=rand_resturs_url,rand_resturs_img=rand_resturs_img, rand_rating_ran= rand_rating_ran, rand_price_ran = rand_price_ran, phone = rand_phone_ran, amount =1, open = open)
 
 @app.route('/res/<term>/<place>')
 def search_result(term,place):
@@ -132,11 +140,12 @@ def search():
     term = request.args.get('term')
     loc = request.args.get('place')
     if(loc == ""):
-        loc = "new york"
+        loc = "new york city"
     if(term == ""):
         term = "indian"
     price = "1,2,3,4"
-    return redirect(url_for('welcome',term=term,place=loc, price=price))
+    open = "false"
+    return redirect(url_for('welcome',term=term,place=loc, price=price, open = open))
 
 
 if __name__ == '__main__':
