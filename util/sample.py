@@ -45,7 +45,7 @@ except ImportError:
 # It now uses private keys to authenticate requests (API Key)
 # You can find it on
 # https://www.yelp.com/developers/v3/manage_app
-API_KEY= "TNxtjVmmadVYDtF3Y2zJ8IrdCywK5mao9NQs5JwPOYOVkxIcmuGP6ZyaCiRGK4efoNnkyEUPvz9GMKA5GTX62hrLACjQr-iap65I8MML5tGx8gz5Wv1F5m_qV0tPXnYx"
+API_KEY= "Z9vG72lVoi0ZdWMzeveYC4Ac-PRPUGLVcaw56tf2yBj6S4UOcxiwfj_NiRARFOhvUq1DEfs4pICq1QrGhKd18jw9GpzRb4QfaG2ea39QmXVwso_Rp1J6jRYWnn9kXnYx"
 
 
 # API constants, you shouldn't have to change these.

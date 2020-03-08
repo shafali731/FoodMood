@@ -3,6 +3,109 @@
   <head>
     <title>
     </title>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Chango|Chela+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Aladin|Merienda+One&display=swap" rel="stylesheet">
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map{
+        width : 40%;
+        height: 60%;
+        margin-top: 40px;
+
+        position:absolute;
+        /* position:right; */
+        /* top:50px; */
+        right:10px;
+        /* bottom:10px; */
+        /* top:10%; */
+        /* padding-top: 80%; */
+      }
+      /* Optional: Makes the sample page fill the window. */
+      body {
+        height: 100%;
+        width:100%
+        margin: 0;
+        padding: 0;
+      }
+      .navbar-brand{
+        background-color:red;
+        color: white;
+      }
+      nav{
+        background-color:red;
+        padding-bottom:5px;
+      }
+      #en{
+        height:20%;
+        width :20%;
+      }
+      #star{
+        margin-top:5%;
+      }
+      #rest_list{
+        margin-right:50px;
+        margin-top: 120px;
+        font-size: 25px;
+        margin-left: 10px;
+        color: red;
+        font-family: 'Aladin', cursive;
+      }
+      a:link {
+        color: red;
+        font-family: 'Aladin', cursive;
+        font-size: 20px;
+
+      }
+
+      /* visited link */
+      a:visited {
+        color: #b53f3f;
+
+      }
+
+      /* mouse over link */
+      a:hover {
+        /* color: #873333; */
+        color:#f25e5e;
+      }
+
+      /* selected link */
+      a:active {
+        color: blue;
+      }
+      .table{
+        width:60%;
+      }
+      /* .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{ */
+      /* .table-condensed>thead>tr>th, .table-condensed>tbody>tr>th, .table-condensed>tfoot>tr>th, .table-condensed>thead>tr>td, .table-condensed>tbody>tr>td, .table-condensed>tfoot>tr>td{ */
+        /* padding: 3px;
+        line-height: 2;
+        vertical-align: bottom;
+        border-top: 0px solid #ddd;
+      } */
+      .fixed-top2{
+        margin-top:56px;
+        /* position:absolute; */
+        /* height:35px; */
+      /* }
+      #myCheck{
+        height:30px;
+        width: 30px;
+      }
+      label {
+        /* margin-top: 20px; */
+        /* height:2px; */
+      }
+      #trying{
+        margin-right:10px;
+        float:right;
+
+      }
+    </style>
   </head>
   <body>
     <nav style="background-color:red" class="navbar navbar-default navbar-fixed-top">
@@ -33,16 +136,21 @@
 
    <script>
      <!-- var resturs_links="<ol>"; -->
-     var resturs_links='<table class="table table-borderless table-striped">';
+     // var resturs_links='<table class="table table-borderless table-striped">';
      var ctr = 0;
      var resturs_urls = {{rand_resturs_url|tojson}};
      var resturs_names = {{rand_resturs_name|tojson}};
      var resturs_imgs = {{rand_resturs_img|tojson}};
-     for(ctr; ctr<{{amount}}; ctr++){
-       var head = '<tr><th scope="row">' + (ctr+1)+ '.</th><td> <img style="height:50px; width"60px;" src="'+ resturs_imgs[ctr]+ '"> <a style="font-size:25px" href= "'+ resturs_urls[ctr] + '">' + resturs_names[ctr] + "</a> </td></tr>";
-       resturs_links += head;
-     }
-     resturs_links += "</table>";
+     // for(ctr; ctr<{{amount}}; ctr++){
+     // var head = '<tr><th scope="row">1.</th><td> <img style="height:50px; width"60px;" src="'+ resturs_imgs+ '"> <a style="font-size:25px" href= "'+ resturs_urls + '">' + resturs_names + "</a> </td></tr>";
+    var img_pic = '<img style="margin-left:10px; height:100px; width"70px;" src="'+ resturs_imgs+ '"> <br>';
+    var name_link = '<a style="font-size:50px" href= "'+ resturs_urls + '">' + resturs_names + "</a> <br>";
+    var details = "Price: "+ {{rand_price_ran|tojson}} + "<br> Ratings: " + {{rand_rating_ran|tojson}};
+
+
+     var resturs_links = img_pic + name_link + details;
+     // }
+     // resturs_links += "</table>";
 
      document.getElementById("rest_list").innerHTML = resturs_links;
      </script>
@@ -67,42 +175,33 @@
                lng: position.coords.longitude
              };
 
-             // infoWindow.setPosition(pos);
-             // infoWindow.setContent('Location found.');
-             // infoWindow.open(map);
              map.setCenter(pos);
-             // var list_of_items = ['a','b','c','d']
-             // var result = list_of_items.map(function(e,i) {
-             //   return {name: e}
-             // })
+
              var locations = [];
-             var lats = {{lats}};
-             var longs = {{longs}}
+             var lats = {{lats|tojson}};
+             var longs = {{longs|tojson}}
              var i;
-             for(i =0; i< 1; i++){
+             // for(i =0; i< 1; i++){
                var dict = {};
-               dict["lat"] = lats[i];
-               dict["lng"] = longs[i];
+               dict["lat"] = lats;
+               dict["lng"] = longs;
                locations.push(dict);
-             }
+             // }
 
              console.log(locations)
-             // var locations = loc
              var ind =0;
-             var labels=['1'];
+             // var labels=['1'];
 
              var markers = locations.map(function(location, i) {
                return new google.maps.Marker({
                  position: location,
                  map:map,
-                 // icon: 'http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=%E2%80%A2|ddd'
-                 // label: labels[i % labels.length]
-                 label: labels[ind],
-                 title:{{rand_resturs_name|tojson}}[ind++]
-                 // label: {{resturs_names|tojson}}[ind],
+
+                 label: {{rand_resturs_name|tojson}},
+                 title:{{rand_resturs_name|tojson}}
+                 // console.log({{rand_resturs_name}})
                });
-               // window.counter +=1;
-               // ind++;
+
              });
              var pinImage = new google.maps.MarkerImage("http://www.googlemapsmarkers.com/v1/009900/");
              var marker = new google.maps.Marker({
@@ -119,12 +218,10 @@
              marker.addListener("click", function(){
                infoWindow.open(map,marker);
              });
-             // var marker = new google.maps.Marker({position: pos, map: map})
            }, function() {
              handleLocationError(true, infoWindow, map.getCenter());
            });
          } else {
-           // Browser doesn't support Geolocation
            handleLocationError(false, infoWindow, map.getCenter());
          }
        }

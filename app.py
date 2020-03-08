@@ -38,34 +38,6 @@ def welcome(term,place,price):
         resturs_urls[k]= y[str(k)]['url']
         resturs_img[k]= y[str(k)]['image_url']
     print(lats)
-    # # print(page)
-    # if(page==1):
-    #     lats_1 = ["" for p in range(10)]
-    #     longs_1 = ["" for p in range(10)]
-    #     resturs_urls_1 = ["" for x in range(10)]
-    #     resturs_names_1 = ["" for x in range(10)]
-    #     resturs_img_1= ["" for x in range(10)]
-    #     for q in range(10):
-    #         lats_1[q] = lats[q]
-    #         longs_1[q] = longs[q]
-    #         resturs_urls_1[q] = resturs_urls[q]
-    #         resturs_names_1[q] = resturs_names[q]
-    #         resturs_img_1[q] = resturs_img[q]
-    #     print(resturs_names_1)
-    #     return render_template('index.html', imgs= resturs_img_1, resturs_urls=resturs_urls_1, resturs_names=resturs_names_1,ret =y, lats=lats, longs= longs, amount = 10,page=1, term = term, place = place)
-    # if(page==2):
-    #     lats_1 = ["" for p in range(10)]
-    #     longs_1 = ["" for p in range(10)]
-    #     resturs_urls_1 = ["" for x in range(10)]
-    #     resturs_names_1 = ["" for x in range(10)]
-    #     resturs_img_1= ["" for x in range(10)]
-    #     for q in range(10):
-    #         lats_1 = lats[10:20]
-    #         longs_1 = longs[10:20]
-    #         resturs_urls_1 = resturs_urls[10:20]
-    #         resturs_names_1 = resturs_names[10:20]
-    #         resturs_img_1 = resturs_img[10:20]
-    #     return render_template('index.html', imgs= resturs_img_1, resturs_urls=resturs_urls_1, resturs_names=resturs_names_1,ret =y, lats=lats, longs= longs, amount = 20,page=2, term = term, place = place)
     return render_template('index.html', imgs= resturs_img, resturs_urls=resturs_urls, resturs_names=resturs_names,ret =y, lats=lats, longs= longs, amount = int(amount), term = term, place = place, price = price)
     # @app.route('/result/<term>/<place>')
     # def welcome(term,place):
@@ -140,33 +112,40 @@ def results_price():
         prices = prices[:-1]
     print("prices" + prices)
     return redirect(url_for('welcome',term=term,place=loc,price = prices))
-# @app.route('/random/<term>/<place>/<price>')
-# def random_res(term,place,price):
-#     ret = sample.query_api(term,place,price)
-#     y = json.loads(ret)
-#     t = list(y.values())
-#     amount = t[-1]
-#     lats = ["" for p in range(int(amount))]
-#     longs = ["" for p in range(int(amount))]
-#     resturs_urls = ["" for x in range(int(amount))]
-#     resturs_names = ["" for x in range(int(amount))]
-#     resturs_img= ["" for x in range(int(amount))]
-#     # locations = []
-#     # print(locations)
-#     for k in range(int(amount)):
-#         lats[k]= y[str(k)]["coordinates"]["latitude"]
-#         longs[k] = y[str(k)]["coordinates"]["longitude"]
-#         resturs_names[k]= y[str(k)]['name']
-#         resturs_urls[k]= y[str(k)]['url']
-#         resturs_img[k]= y[str(k)]['image_url']
-#     rand_num = random.randrange(int(amount))
-#
-#     latit = lats[rand_num]
-#     longit = longs[rand_num]
-#     rand_resturs_name= resturs_names[rand_num]
-#     rand_resturs_url= resturs_urls[rand_num]
-#     rand_resturs_img= resturs_imgs[rand_num]
-#     return render_template('random.html',lats = lait, longs = longit, term=term, place=place, price=price,rand_resturs_name=rand_resturs_name,rand_resturs_url=rand_resturs_url,rand_resturs_img=rand_resturs_img)
+@app.route('/random/<term>/<place>/<price>')
+def random_res(term,place,price):
+    ret = sample.query_api(term,place,price)
+    y = json.loads(ret)
+    # print(y)
+    t = list(y.values())
+    amount = t[-1]
+    lats = ["" for p in range(int(amount))]
+    longs = ["" for p in range(int(amount))]
+    resturs_urls = ["" for x in range(int(amount))]
+    resturs_names = ["" for x in range(int(amount))]
+    resturs_img= ["" for x in range(int(amount))]
+    rating_ran= ["" for x in range(int(amount))]
+    price_ran = ["" for x in range(int(amount))]
+    # locations = []
+    # print(locations)
+    for k in range(int(amount)):
+        lats[k]= y[str(k)]["coordinates"]["latitude"]
+        longs[k] = y[str(k)]["coordinates"]["longitude"]
+        resturs_names[k]= y[str(k)]['name']
+        resturs_urls[k]= y[str(k)]['url']
+        resturs_img[k]= y[str(k)]['image_url']
+        rating_ran[k] = y[str(k)]['rating']
+        price_ran[k] = y[str(k)]['price']
+    rand_num = random.randrange(int(amount))
+
+    latit = lats[rand_num]
+    longit = longs[rand_num]
+    rand_resturs_name= resturs_names[rand_num]
+    rand_resturs_url= resturs_urls[rand_num]
+    rand_resturs_img= resturs_img[rand_num]
+    rand_rating_ran = rating_ran[rand_num]
+    rand_price_ran = price_ran[rand_num]
+    return render_template('random.html',lats = latit, longs = longit, term=term, place=place, price=price,rand_resturs_name=rand_resturs_name,rand_resturs_url=rand_resturs_url,rand_resturs_img=rand_resturs_img, rand_rating_ran= rand_rating_ran, rand_price_ran = rand_price_ran, amount =1)
 
 @app.route('/res/<term>/<place>')
 def search_result(term,place):
