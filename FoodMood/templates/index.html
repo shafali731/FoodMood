@@ -126,6 +126,9 @@
           &nbsp&nbsp&nbsp Sort by Open Now:
          <input type="checkbox" id="myCheck" value="true" name="open_now">
          <label for="open_now" style="font-family: 'Aladin', cursive;color: red;font-size:20px;">Open Now</label>
+         &nbsp&nbsp&nbsp Sort by Rating:
+         <input type="checkbox" id="myCheck" value="rating" name="sort_rating">
+         <label for="open_now" style="font-family: 'Aladin', cursive;color: red;font-size:20px;">Ratings &nbsp&nbsp&nbsp</label>
          <input type="hidden" name="term" class="form-control" value  = {{term}}>
          <input type="hidden" name="place" class="form-control" value = {{place}}>
          <!-- <input type="text" name="place" class="form-control" placeholder="Location"> -->
@@ -133,7 +136,7 @@
        <button  class="btn btn-default" type="submit" name="price_sub">
           <!-- <i class="glyphicon glyphicon-search"></i> -->
         </button>
-        <label for="price_sub">submit</label>
+        <label for="price_sub">Submit</label>
 
       </div>
 
@@ -166,7 +169,7 @@
    <!-- <h1 id="star"></h1> -->
    <!-- <h1>y</h1> -->
 
-     <a id = "random_place" class="btn btn-outline-danger" href="/random/{{term}}/{{place}}/{{price}}/{{open}}" role="button">CLICK HERE TO LET US PICK A PLACE FOR YOU</a>
+     <a id = "random_place" class="btn btn-outline-danger" href="/random/{{term}}/{{place}}/{{price}}/{{open}}/{{rating}}" role="button">CLICK HERE TO LET US PICK A PLACE FOR YOU</a>
    <div id="rest_list">
      <!-- {{ret}} -->
      </div>

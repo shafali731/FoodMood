@@ -18,9 +18,9 @@ app=Flask(__name__)
 @app.route('/')
 def start():
     return render_template('new_welcome.html')
-@app.route('/result/<term>/<place>/<price>/<open>')
-def welcome(term,place,price,open):
-    ret = sample.query_api(term,place,price,open)
+@app.route('/result/<term>/<place>/<price>/<open>/<rating>')
+def welcome(term,place,price,open,rating):
+    ret = sample.query_api(term,place,price,open,rating)
     if(ret == None):
         return render_template('error.html')
     print(ret)
@@ -34,7 +34,7 @@ def welcome(term,place,price,open):
     resturs_img= ["" for x in range(int(amount))]
     phone= ["" for x in range(int(amount))]
     price_list= ["" for x in range(int(amount))]
-    ratings= ["" for x in range(int(amount))]
+    ratings= ["" for x in range(int(amount))] #this is the ratings list NOT sort by rating
     # locations = []
     # print(locations)
     for k in range(int(amount)):
@@ -47,7 +47,7 @@ def welcome(term,place,price,open):
         price_list[k] = y[str(k)]['price']
         ratings[k] = y[str(k)]['rating']
     print(phone)
-    return render_template('index.html', imgs= resturs_img, resturs_urls=resturs_urls, resturs_names=resturs_names,ret =y, lats=lats, longs= longs, amount = int(amount), term = term, place = place, price = price, phone = phone, price_list = price_list, ratings = ratings, open = open)
+    return render_template('index.html', imgs= resturs_img, resturs_urls=resturs_urls, resturs_names=resturs_names,ret =y, lats=lats, longs= longs, amount = int(amount), term = term, place = place, price = price, phone = phone, price_list = price_list, ratings = ratings, open = open, rating=rating)
 
 @app.route('/sort_price', methods=["GET"])
 def results_price():
@@ -60,6 +60,7 @@ def results_price():
     third= request.args.get('three')
     fourth= request.args.get('four')
     open_n = request.args.get('open_now')
+    rating_sort = request.args.get('sort_rating')
     prices = ""
     print(second)
     if(first==None and second == None and third == None and fourth == None):
@@ -78,11 +79,15 @@ def results_price():
         open = "true"
     else:
         open = "false"
+    if(rating_sort=="rating"):
+        rating="rating"
+    else:
+        rating="best_match"
     print("prices" + prices)
-    return redirect(url_for('welcome',term=term,place=loc,price = prices, open = open))
-@app.route('/random/<term>/<place>/<price>/<open>')
-def random_res(term,place,price,open):
-    ret = sample.query_api(term,place,price,open)
+    return redirect(url_for('welcome',term=term,place=loc,price = prices, open = open, rating = rating))
+@app.route('/random/<term>/<place>/<price>/<open>/<rating>')
+def random_res(term,place,price,open,rating):
+    ret = sample.query_api(term,place,price,open,rating)
     y = json.loads(ret)
     # print(y)
     t = list(y.values())
@@ -117,7 +122,7 @@ def random_res(term,place,price,open):
     rand_rating_ran = rating_ran[rand_num]
     rand_price_ran = price_ran[rand_num]
     rand_phone_ran = phone_ran[rand_num]
-    return render_template('random.html',lats = latit, longs = longit, term=term, place=place, price=price,rand_resturs_name=rand_resturs_name,rand_resturs_url=rand_resturs_url,rand_resturs_img=rand_resturs_img, rand_rating_ran= rand_rating_ran, rand_price_ran = rand_price_ran, phone = rand_phone_ran, amount =1, open = open)
+    return render_template('random.html',lats = latit, longs = longit, term=term, place=place, price=price,rand_resturs_name=rand_resturs_name,rand_resturs_url=rand_resturs_url,rand_resturs_img=rand_resturs_img, rand_rating_ran= rand_rating_ran, rand_price_ran = rand_price_ran, phone = rand_phone_ran, amount =1, rating=rating, open = open)
 
 @app.route('/res/<term>/<place>')
 def search_result(term,place):
@@ -145,7 +150,8 @@ def search():
         term = "indian"
     price = "1,2,3,4"
     open = "false"
-    return redirect(url_for('welcome',term=term,place=loc, price=price, open = open))
+    rating = "best_match"
+    return redirect(url_for('welcome',term=term,place=loc, price=price, open = open,rating = rating))
 
 
 if __name__ == '__main__':
